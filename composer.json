@@ -1,0 +1,21 @@
+{
+    "name": "stougeiro/view",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "stougeiro",
+            "email": "sidneytougeiro@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "STDW\\View\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.1",
+        "stougeiro/view-contract": "0.1.0"
+    }
+}
