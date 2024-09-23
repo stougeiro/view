@@ -17,6 +17,11 @@
         }
 
 
+        public function setStorage(string $name, string $path): void
+        {
+            $this->handler->setStorage($name, $path);
+        }
+
         public function compile(string $filepath, array $data = []): string
         {
             return $this->handler->compile($filepath, $data);

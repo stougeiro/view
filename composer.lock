@@ -4,20 +4,137 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d76a58627d3f03740191fddc49bdbe3",
+    "content-hash": "e399279d4043c91116f4b9119ece4c1e",
     "packages": [
         {
-            "name": "stougeiro/view-contract",
+            "name": "stougeiro/contract",
             "version": "v0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stougeiro/view-contract.git",
-                "reference": "efd59b4f3db08592ffa030867ae594baa15643fc"
+                "url": "https://github.com/stougeiro/contract.git",
+                "reference": "7e926d778863191ba50ea3beff0ab3dd580ceb5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stougeiro/view-contract/zipball/efd59b4f3db08592ffa030867ae594baa15643fc",
-                "reference": "efd59b4f3db08592ffa030867ae594baa15643fc",
+                "url": "https://api.github.com/repos/stougeiro/contract/zipball/7e926d778863191ba50ea3beff0ab3dd580ceb5a",
+                "reference": "7e926d778863191ba50ea3beff0ab3dd580ceb5a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "STDW\\Contract\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "stougeiro",
+                    "email": "sidneytougeiro@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/stougeiro/contract/issues",
+                "source": "https://github.com/stougeiro/contract/tree/v0.1.0"
+            },
+            "time": "2024-09-18T17:16:46+00:00"
+        },
+        {
+            "name": "stougeiro/support",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stougeiro/support.git",
+                "reference": "6e4fce9b98b11df7cb09a4611c6b8cfcc5ad65f1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stougeiro/support/zipball/6e4fce9b98b11df7cb09a4611c6b8cfcc5ad65f1",
+                "reference": "6e4fce9b98b11df7cb09a4611c6b8cfcc5ad65f1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "STDW\\Support\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "stougeiro",
+                    "email": "sidneytougeiro@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/stougeiro/support/issues",
+                "source": "https://github.com/stougeiro/support/tree/v0.1.0"
+            },
+            "time": "2024-09-17T21:59:15+00:00"
+        },
+        {
+            "name": "stougeiro/valueobject",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stougeiro/valueobject.git",
+                "reference": "da99bb4cc332fae54c29d8c25b9eb37e334896cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stougeiro/valueobject/zipball/da99bb4cc332fae54c29d8c25b9eb37e334896cd",
+                "reference": "da99bb4cc332fae54c29d8c25b9eb37e334896cd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "STDW\\ValueObject\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "S.Tougeiro",
+                    "email": "sidneytougeiro@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/stougeiro/valueobject/issues",
+                "source": "https://github.com/stougeiro/valueobject/tree/v0.1.0"
+            },
+            "time": "2024-02-26T22:46:35+00:00"
+        },
+        {
+            "name": "stougeiro/view-contract",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stougeiro/view-contract.git",
+                "reference": "913e08eafe2c40631dec831c8cfc4c0880194481"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stougeiro/view-contract/zipball/913e08eafe2c40631dec831c8cfc4c0880194481",
+                "reference": "913e08eafe2c40631dec831c8cfc4c0880194481",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +158,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stougeiro/view-contract/issues",
-                "source": "https://github.com/stougeiro/view-contract/tree/v0.1.0"
+                "source": "https://github.com/stougeiro/view-contract/tree/v0.2.0"
             },
-            "time": "2024-09-18T01:12:56+00:00"
+            "time": "2024-09-23T00:44:29+00:00"
         }
     ],
     "packages-dev": [],
