@@ -4,24 +4,118 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06009c602b65ee12afd6a8058eae21da",
+    "content-hash": "b7a4690dc9727e275018c46a69a4244f",
     "packages": [
         {
-            "name": "stougeiro/contract",
-            "version": "v0.2.0",
+            "name": "psr/container",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/stougeiro/contract.git",
-                "reference": "08adbecda64246fceaa0b5dc80c76d74115dc9c7"
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stougeiro/contract/zipball/08adbecda64246fceaa0b5dc80c76d74115dc9c7",
-                "reference": "08adbecda64246fceaa0b5dc80c76d74115dc9c7",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/2.0.2"
+            },
+            "time": "2021-11-05T16:47:00+00:00"
+        },
+        {
+            "name": "stougeiro/container-contract",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stougeiro/container-contract.git",
+                "reference": "f77d98e12b05531be87717224052ae195c84bad2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stougeiro/container-contract/zipball/f77d98e12b05531be87717224052ae195c84bad2",
+                "reference": "f77d98e12b05531be87717224052ae195c84bad2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "psr/container": "2.0.2"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "STDW\\Container\\Contract\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "stougeiro",
+                    "email": "sidneytougeiro@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/stougeiro/container-contract/issues",
+                "source": "https://github.com/stougeiro/container-contract/tree/v0.1.0"
+            },
+            "time": "2024-09-18T18:11:16+00:00"
+        },
+        {
+            "name": "stougeiro/contract",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stougeiro/contract.git",
+                "reference": "4945baf26151890376e2801fc6e0b0e928412e0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stougeiro/contract/zipball/4945baf26151890376e2801fc6e0b0e928412e0e",
+                "reference": "4945baf26151890376e2801fc6e0b0e928412e0e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "stougeiro/container-contract": "0.1.0"
             },
             "type": "package",
             "autoload": {
@@ -44,9 +138,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stougeiro/contract/issues",
-                "source": "https://github.com/stougeiro/contract/tree/v0.2.0"
+                "source": "https://github.com/stougeiro/contract/tree/v0.4.1"
             },
-            "time": "2024-09-23T04:34:00+00:00"
+            "time": "2024-09-23T06:24:27+00:00"
         },
         {
             "name": "stougeiro/support",
