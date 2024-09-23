@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-    use STDW\View\View;
+    use STDW\View\Contract\ViewInterface;
 
 
     if ( ! function_exists('view'))
     {
-        function view(): View
+        function view(): ViewInterface
         {
-            return app()->make(View::class);
+            return app()->make(ViewInterface::class);
         }
     }

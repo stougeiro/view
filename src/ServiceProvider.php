@@ -15,17 +15,11 @@
         {
             $this->app->singleton(ViewInterface::class, View::class);
             $this->app->singleton(ViewHandlerInterface::class, ViewHandler::class);
-
-            $this->app::macro('view', function() {
-                return $this->app->make(ViewInterface::class);
-            });
         }
 
         public function boot(): void
-        {
-        }
+        { }
 
         public function terminate(): void
-        {
-        }
+        { }
     }
