@@ -15,6 +15,8 @@
 
         protected string $file_extension = '.php';
 
+        protected array $data = [];
+
 
         public function __construct()
         { }
@@ -35,6 +37,10 @@
             $this->storage[$name] = $path->get();
         }
 
+        public function compose(array $data): void
+        {
+            $this->data = array_merge($this->data, $data);
+        }
 
         public function compile(string $filepath, array $data = []): string
         {
@@ -42,6 +48,10 @@
                 list($storage, $filepath) = explode($this->storage_separator, $filepath);
 
                 $filepath = ($this->storage[$storage] ?? null) . $filepath;
+            }
+
+            if (strpos($filepath, '.')) {
+                $filepath = str_replace('.', DIRECTORY_SEPARATOR, $filepath);
             }
 
             if ( ! strpos($filepath, $this->file_extension)) {
@@ -52,8 +62,10 @@
                 throw new ViewException("View: '{$filepath}' not found");
             }
 
+            $this->compose($data);
+
             ob_start();
-                extract($data);
+                extract($this->data);
                 include $filepath;
 
                 $output = ob_get_contents();

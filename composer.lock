@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e399279d4043c91116f4b9119ece4c1e",
+    "content-hash": "879b0861dd51e3f2496429edbfb6e6ba",
     "packages": [
         {
             "name": "stougeiro/contract",
@@ -125,16 +125,16 @@
         },
         {
             "name": "stougeiro/view-contract",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stougeiro/view-contract.git",
-                "reference": "913e08eafe2c40631dec831c8cfc4c0880194481"
+                "reference": "63e79d57806043668c8416c617ad352e9cb02dcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stougeiro/view-contract/zipball/913e08eafe2c40631dec831c8cfc4c0880194481",
-                "reference": "913e08eafe2c40631dec831c8cfc4c0880194481",
+                "url": "https://api.github.com/repos/stougeiro/view-contract/zipball/63e79d57806043668c8416c617ad352e9cb02dcc",
+                "reference": "63e79d57806043668c8416c617ad352e9cb02dcc",
                 "shasum": ""
             },
             "require": {
@@ -158,9 +158,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stougeiro/view-contract/issues",
-                "source": "https://github.com/stougeiro/view-contract/tree/v0.2.0"
+                "source": "https://github.com/stougeiro/view-contract/tree/v0.3.0"
             },
-            "time": "2024-09-23T00:44:29+00:00"
+            "time": "2024-09-23T03:52:16+00:00"
         }
     ],
     "packages-dev": [],
