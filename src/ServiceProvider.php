@@ -14,7 +14,7 @@
         public function register(): void
         {
             $this->app->singleton(ViewInterface::class, View::class);
-            $this->app->bind(ViewHandlerInterface::class, ViewHandler::class);
+            $this->app->singleton(ViewHandlerInterface::class, ViewHandler::class);
 
             $this->app->view = $this->app->make(ViewInterface::class);
         }
