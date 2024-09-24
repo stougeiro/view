@@ -5,6 +5,7 @@
     use STDW\View\Contract\ViewHandlerInterface;
     use STDW\View\ValueObject\StorageValue;
     use STDW\Support\Str;
+    use Throwable;
 
 
     class ViewHandler implements ViewHandlerInterface
@@ -19,7 +20,15 @@
 
 
         public function __construct()
-        { }
+        {
+            try {
+                $this->storage_separator = config('view.storage_separator');
+            } catch (Throwable $e) { }
+
+            try {
+                $this->file_extension = config('view.file_extension');
+            } catch (Throwable $e) { }
+        }
 
 
         public function setStorage(string $name, string $path): void
