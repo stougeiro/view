@@ -53,29 +53,11 @@
 
         public function compile(string $filepath, array $data = []): string
         {
-            if (strpos($filepath, $this->storage_separator)) {
-                list($storage, $filepath) = explode($this->storage_separator, $filepath);
-
-                $filepath = ($this->storage[$storage] ?? null) . $filepath;
-            }
-
-            if (strpos($filepath, '.')) {
-                $filepath = str_replace('.', DIRECTORY_SEPARATOR, $filepath);
-            }
-
-            if ( ! strpos($filepath, $this->file_extension)) {
-                $filepath .= $this->file_extension;
-            }
-
-            if ( ! file_exists($filepath)) {
-                throw new ViewException("View: '{$filepath}' not found");
-            }
-
             $this->compose($data);
 
             ob_start();
                 extract($this->data);
-                include $filepath;
+                include $this->getTemplatePath($filepath);
 
                 $output = ob_get_contents();
             ob_end_clean();
@@ -86,5 +68,29 @@
         public function render(string $filepath, array $data = []): void
         {
             echo $this->compile($filepath, $data);
+        }
+
+
+        protected function getTemplatePath(string $filepath): string
+        {
+            if (strpos($filepath, '.')) {
+                $filepath = str_replace('.', DIRECTORY_SEPARATOR, $filepath);
+            }
+
+            if (strpos($filepath, $this->storage_separator)) {
+                list($storage, $filepath) = explode($this->storage_separator, $filepath);
+
+                $filepath = ($this->storage[$storage] ?? null) . $filepath;
+            }
+
+            if ( ! strpos($filepath, $this->file_extension)) {
+                $filepath .= $this->file_extension;
+            }
+
+            if ( ! file_exists($filepath)) {
+                throw new ViewException("View: '{$filepath}' not found");
+            }
+
+            return $filepath;
         }
     }
