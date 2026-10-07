@@ -32,7 +32,8 @@
         ]
     },
     "require": {
-        "php": ">=8.2"
+        "php": ">=8.2",
+        "stougeiro/view-contract": "^1.0"
     },
     "autoload-dev": {
         "psr-4": {
