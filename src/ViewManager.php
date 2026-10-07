@@ -1,0 +1,125 @@
+<?php declare(strict_types=1);
+
+    namespace STDW\View;
+
+    use STDW\Contract\View\AliasAwareInterface;
+    use STDW\Contract\View\ViewEngineInterface;
+    use STDW\View\Exception\ViewConfigException;
+    use STDW\View\Exception\ViewIdentifierException;
+    use STDW\View\Exception\ViewNotFoundException;
+
+
+    class ViewManager implements AliasAwareInterface
+    {
+        /** @var ViewConfig
+         */
+        protected ViewConfig $config;
+
+        /** @var ViewEngineInterface
+         */
+        protected ViewEngineInterface $engine;
+
+        /** @var array<string, mixed>
+         */
+        protected array $shared = [];
+
+        /** @var array<string, string>
+         */
+        protected array $aliases;
+
+
+        public function __construct(ViewConfig $config, ViewEngineInterface $engine)
+        {
+            $this->config = $config;
+            $this->engine = $engine;
+            $this->aliases = $config->aliases();
+        }
+
+
+        /**
+         * @param array<string, mixed> $data
+         * @return void
+         */
+        public function share(array $data): void
+        {
+            $this->shared = [...$this->shared, ...$data];
+        }
+
+        /**
+         * @param string $view View identifier (e.g., "admin:index" or "pages.about").
+         * @param array<string, mixed> $data Local data passed to the view.
+         * @return string Rendered output.
+         * @throws ViewIdentifierException When the view identifier cannot be resolved.
+         * @throws ViewNotFoundException When the engine cannot find the template file.
+         */
+        public function render(string $view, array $data = []): string
+        {
+            return $this->engine->render(
+                $this->resolveAlias($view),
+                [...$this->shared, ...$data]
+            );
+        }
+
+        /**
+         * @param string $name Alias name.
+         * @param null|string $path Directory path (null when retrieving).
+         * @return null|string Returns the directory path when used as a getter.
+         * @throws ViewConfigException When the alias name or path is invalid.
+         */
+        public function alias(string $name, ?string $path = null): ?string
+        {
+            if ($path === null) {
+                return $this->aliases[$name] ?? null;
+            }
+
+            if (preg_match('/^[A-Za-z0-9]+$/', $name) !== 1) {
+                throw ViewConfigException::invalidAliasName($name);
+            }
+
+            if ($path === '') {
+                throw ViewConfigException::invalidAliasPath($name);
+            }
+
+            $this->aliases[$name] = rtrim($path, '/\\');
+
+            return null;
+        }
+
+        /**
+         * @param string $view View identifier.
+         * @return string Complete file path of the view template.
+         * @throws ViewIdentifierException When the identifier is empty, malformed, or references an unknown alias.
+         */
+        public function resolveAlias(string $view): string
+        {
+            if ($view === '') {
+                throw ViewIdentifierException::emptyIdentifier();
+            }
+
+            $prefix = $this->config->storage();
+            $path = $view;
+
+            if (str_contains($view, ':')) {
+                [$name, $path] = explode(':', $view, 2);
+
+                if ($name === '' || $path === '') {
+                    throw ViewIdentifierException::emptySegment($view);
+                }
+
+                if (str_contains($path, ':')) {
+                    throw ViewIdentifierException::tooManyColons($view);
+                }
+
+                if ( ! isset($this->aliases[$name])) {
+                    throw ViewIdentifierException::unknownAlias($name);
+                }
+
+                $prefix = $this->aliases[$name];
+            }
+
+            $path = str_replace('..', '', $path);
+            $path = str_replace('.', '/', $path);
+
+            return $prefix . '/' . $path . $this->config->extension();
+        }
+    }
