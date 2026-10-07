@@ -1,6 +1,6 @@
 {
     "name": "stougeiro/view",
-    "description": "",
+    "description": "Light, engine-agnostic view layer for PHP. Ships a configurable PhpEngine, dot/alias view resolution, and shared data rendering behind the stougeiro/view-contract interfaces.",
     "type": "library",
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -12,6 +12,12 @@
         }
     ],
     "keywords": [
+        "view",
+        "template",
+        "template-engine",
+        "rendering",
+        "view-engine",
+        "view-contract"
     ],
     "support": {
         "issues": "https://github.com/stougeiro/view/issues",
@@ -26,10 +32,7 @@
     "autoload": {
         "psr-4": {
             "STDW\\View\\": "src/"
-        },
-        "files": [
-            "src/Helper/helper.php"
-        ]
+        }
     },
     "require": {
         "php": ">=8.2",
@@ -46,7 +49,8 @@
     },
     "scripts": {
         "stan": "vendor/bin/phpstan",
-        "pest": "vendor/bin/pest"
+        "pest": "vendor/bin/pest",
+        "perf": "vendor/bin/pest --testsuite=Performance"
     },
     "config": {
         "allow-plugins": {
