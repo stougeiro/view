@@ -11,7 +11,8 @@
 |
 */
 
-pest()->extend(Tests\TestCase::class)->in('Feature');
+pest()->extend(Tests\TestCase::class)->in('Unit', 'Feature');
+pest()->extend(Tests\Performance\PerformanceTestCase::class)->in('Performance');
 
 /*
 |--------------------------------------------------------------------------
@@ -24,10 +25,6 @@ pest()->extend(Tests\TestCase::class)->in('Feature');
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
-
 /*
 |--------------------------------------------------------------------------
 | Functions
@@ -38,8 +35,3 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
-
-function something()
-{
-    // ..
-}
