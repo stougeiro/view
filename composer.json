@@ -1,0 +1,55 @@
+{
+    "name": "stougeiro/view",
+    "description": "",
+    "type": "library",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "stougeiro",
+            "email": "sidneytougeiro@gmail.com"
+        }
+    ],
+    "keywords": [
+    ],
+    "support": {
+        "issues": "https://github.com/stougeiro/view/issues",
+        "source": "https://github.com/stougeiro/view"
+    },
+    "funding": [
+        {
+            "type": "buymeacoffee",
+            "url": "https://www.buymeacoffee.com/stougeiro"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "STDW\\View\\": "src/"
+        },
+        "files": [
+            "src/Helper/helper.php"
+        ]
+    },
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "pestphp/pest": "^3.8"
+    },
+    "scripts": {
+        "stan": "vendor/bin/phpstan",
+        "pest": "vendor/bin/pest"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
