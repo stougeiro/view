@@ -3,10 +3,13 @@
     namespace STDW\View;
 
     use STDW\View\Exception\ViewConfigException;
+    use STDW\View\Spec\AliasTrait;
 
 
     class ViewConfig
     {
+        use AliasTrait;
+
         /** @var string
          */
         protected string $storage;
@@ -103,15 +106,11 @@
             foreach ($aliases as $name => $path) {
                 $name = (string) $name;
 
-                if (preg_match('/^[A-Za-z0-9]+$/', $name) !== 1) {
-                    throw ViewConfigException::invalidAliasName($name);
-                }
-
-                if ( ! is_string($path) || $path === '') {
+                if ( ! is_string($path)) {
                     throw ViewConfigException::invalidAliasPath($name);
                 }
 
-                $validated[$name] = rtrim($path, '/\\');
+                $validated[$name] = $this->normalizeAlias($name, $path);
             }
 
             return $validated;

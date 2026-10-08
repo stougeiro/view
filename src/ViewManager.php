@@ -7,10 +7,16 @@
     use STDW\View\Exception\ViewConfigException;
     use STDW\View\Exception\ViewIdentifierException;
     use STDW\View\Exception\ViewNotFoundException;
+    use STDW\View\Exception\ViewRenderException;
+    use STDW\View\Spec\AliasTrait;
+    use STDW\View\Spec\RenderContext;
+    use STDW\View\Spec\TemplateContext;
 
 
     class ViewManager implements AliasAwareInterface
     {
+        use AliasTrait;
+
         /** @var ViewConfig
          */
         protected ViewConfig $config;
@@ -51,13 +57,54 @@
          * @return string Rendered output.
          * @throws ViewIdentifierException When the view identifier cannot be resolved.
          * @throws ViewNotFoundException When the engine cannot find the template file.
+         * @throws ViewRenderException When template inheritance or block usage is invalid.
          */
         public function render(string $view, array $data = []): string
         {
-            return $this->engine->render(
-                $this->resolveAlias($view),
-                [...$this->shared, ...$data]
+            $data = [...$this->shared, ...$data];
+
+            $render = function (string $path, TemplateContext $context) use ($data): string {
+                return $this->engine->render($path, [...$data, RenderContext::DATA_KEY => $context]);
+            };
+
+            $state = new RenderContext(
+                fn (string $view): string => $this->resolveAlias($view),
+                $render,
             );
+
+            $context = $state->template();
+
+            $path = $this->resolveAlias($view);
+            $visited = [$path => $view];
+
+            while (true) {
+                $state->enterPass($path, $view);
+
+                $output = $render($path, $context);
+
+                $openBlock = $state->openBlockName();
+
+                if ($openBlock !== null) {
+                    throw ViewRenderException::unclosedBlock($openBlock);
+                }
+
+                $parent = $state->takeParent();
+
+                if ($parent === null) {
+                    return $output;
+                }
+
+                $path = $this->resolveAlias($parent);
+
+                if (isset($visited[$path])) {
+                    throw ViewRenderException::cyclicExtends(
+                        implode(' → ', [...array_values($visited), $parent]),
+                    );
+                }
+
+                $visited[$path] = $parent;
+                $view = $parent;
+            }
         }
 
         /**
@@ -72,15 +119,7 @@
                 return $this->aliases[$name] ?? null;
             }
 
-            if (preg_match('/^[A-Za-z0-9]+$/', $name) !== 1) {
-                throw ViewConfigException::invalidAliasName($name);
-            }
-
-            if ($path === '') {
-                throw ViewConfigException::invalidAliasPath($name);
-            }
-
-            $this->aliases[$name] = rtrim($path, '/\\');
+            $this->aliases[$name] = $this->normalizeAlias($name, $path);
 
             return null;
         }
