@@ -158,6 +158,17 @@ try {
 
 ---
 
+## ⏳ Long-running runtimes
+
+Under PHP-FPM every request starts from a clean process, so a single instance works. In long-running runtimes — Swoole, RoadRunner, FrankenPHP — the process is reused, so treat the mutable parts as per-request:
+
+- **Create one `ViewManager` per request** (or reset it). `share()` and a runtime `alias()` mutate the instance; reusing it across requests would leak shared data and aliases between them.
+- **`PhpEngine` and `ViewConfig` are safe to share.** They hold no per-request state — `ViewConfig` is immutable after construction.
+- **Enable the opcode cache for the CLI SAPI** (`opcache.enable_cli=1`). These runtimes use the CLI SAPI, where OPcache is off by default; without it every render reparses the template.
+- **Keep templates synchronous.** Rendering runs inside output buffers and returns a string — pass everything in through `render($view, $data)` rather than suspending a coroutine (e.g. an I/O call) from inside a template.
+
+---
+
 ## 🧠 Why?
 
 Because a view layer should do two things well — resolve a view identifier to a file, and render it with data — without becoming a framework. `PhpEngine` is the proposal itself, not a stepping stone toward a fancier engine: templates are plain PHP, so there is nothing to compile or warm up. The six `$this` methods are the whole template surface, escape included.
