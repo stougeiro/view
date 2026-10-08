@@ -5,7 +5,7 @@
 
     /**
      * The surface exposed to templates as $this. Templates can call these
-     * five methods and nothing else: the internal machinery of RenderContext
+     * six methods and nothing else: the internal machinery of RenderContext
      * is unreachable from a template.
      */
     final class TemplateContext

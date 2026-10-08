@@ -18,6 +18,14 @@
         /**
          * @return ViewConfigException
          */
+        public static function invalidStorage(): self
+        {
+            return new self('"storage" must be a non-empty string.');
+        }
+
+        /**
+         * @return ViewConfigException
+         */
         public static function invalidExtension(): self
         {
             return new self('"extension" must start with ".".');

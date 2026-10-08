@@ -18,14 +18,6 @@
         use AliasTrait;
 
 
-        /** @var ViewConfig
-         */
-        protected ViewConfig $config;
-
-        /** @var ViewEngineInterface
-         */
-        protected ViewEngineInterface $engine;
-
         /** @var array<string, mixed>
          */
         protected array $shared = [];
@@ -35,11 +27,11 @@
         protected array $aliases;
 
 
-        public function __construct(ViewConfig $config, ViewEngineInterface $engine)
+        public function __construct(
+            protected ViewConfig $config,
+            protected ViewEngineInterface $engine)
         {
-            $this->config = $config;
-            $this->engine = $engine;
-            $this->aliases = $config->aliases();
+            $this->aliases = $this->config->aliases();
         }
 
 
@@ -133,6 +125,10 @@
         {
             if ($view === '') {
                 throw ViewIdentifierException::emptyIdentifier();
+            }
+
+            if (preg_match('/[\x00-\x1F]/', $view) === 1) {
+                throw ViewIdentifierException::invalidCharacters($view);
             }
 
             $prefix = $this->config->storage();

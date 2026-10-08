@@ -71,11 +71,15 @@
 
 
         /**
-         * @param string $path
+         * @param mixed $path
          * @return string
          */
-        protected function validateStorage(string $path): string
+        protected function validateStorage(mixed $path): string
         {
+            if ( ! is_string($path)) {
+                throw ViewConfigException::invalidStorage();
+            }
+
             if ($path === '') {
                 throw ViewConfigException::missingStorage();
             }
@@ -84,12 +88,12 @@
         }
 
         /**
-         * @param string $extension
+         * @param mixed $extension
          * @return string
          */
-        protected function validateExtension(string $extension): string
+        protected function validateExtension(mixed $extension): string
         {
-            if ($extension === '' || ! str_starts_with($extension, '.')) {
+            if ( ! is_string($extension) || $extension === '' || ! str_starts_with($extension, '.')) {
                 throw ViewConfigException::invalidExtension();
             }
 

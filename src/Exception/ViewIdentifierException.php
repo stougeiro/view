@@ -34,6 +34,15 @@
         }
 
         /**
+         * @param string $view
+         * @return ViewIdentifierException
+         */
+        public static function invalidCharacters(string $view): self
+        {
+            return new self("view identifier '{$view}' contains invalid characters.");
+        }
+
+        /**
          * @param string $name
          * @return ViewIdentifierException
          */

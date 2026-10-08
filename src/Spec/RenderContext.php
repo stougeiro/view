@@ -210,14 +210,6 @@
         }
 
         /**
-         * @return string|null The declared parent view identifier.
-         */
-        public function parentView(): ?string
-        {
-            return $this->extends;
-        }
-
-        /**
          * Returns and clears the declared parent view. Used by the manager
          * to consume the declaration once per pass.
          *
