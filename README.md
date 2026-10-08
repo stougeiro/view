@@ -27,9 +27,6 @@ A light, engine-agnostic view layer for PHP. It resolves view identifiers (dot n
 - **The Proposal, Not a Placeholder**  
   `PhpEngine` is a complete template engine for the simple case: plain-PHP templates, no compiler, no warm-up, no cache. No decorations, no comfort features. A respectable performance baseline delivered with maximum simplicity.
 
-- **Path Guard**  
-  Parent-directory traversal (`..`) is stripped from user-supplied view identifiers before resolution.
-
 ---
 
 ## 📦 Installation
@@ -132,8 +129,8 @@ Every failure is a named exception under `STDW\View\Exception`, all extending th
 
 | Exception | Extends | Thrown when |
 |---|---|---|
-| `ViewConfigException` | `InvalidArgumentException` | The config or an `alias()` registration is invalid (storage, extension, alias name matching `[A-Za-z0-9]`). |
-| `ViewIdentifierException` | `InvalidArgumentException` | The view identifier is empty, malformed, has more than one `:`, or references an unknown alias. |
+| `ViewConfigException` | `InvalidArgumentException` | The config or an `alias()` registration is invalid (storage and extension must be non-empty strings, alias name matching `[A-Za-z0-9]`). |
+| `ViewIdentifierException` | `InvalidArgumentException` | The view identifier is empty, malformed, contains control characters, has more than one `:`, or references an unknown alias. |
 | `ViewNotFoundException` | `RuntimeException` | The resolved template file does not exist on disk. |
 | `ViewRenderException` | `RuntimeException` | Template inheritance or block usage is invalid (cyclic `extends`/`include`, nested/stray/unclosed blocks, `extends()` inside an `include()`). |
 
@@ -146,6 +143,16 @@ try {
     echo $e->getMessage(); // "alias 'admin' is not registered."
 }
 ```
+
+---
+
+## 🔒 Security Boundaries
+
+- **Templates are code.** Whoever can create or edit a template runs PHP. Treat template authorship as trusted; never let end users author template files.
+- **Aliases declare trusted directories.** `alias($name, $path)` points at a root you control — the path is a developer decision, never user input.
+- **Identifiers are untrusted input.** `..`, absolute paths, backslashes, percent-encoded traversal and stream wrappers (`php://`, `phar://`) cannot escape the storage root or the alias root: `..` segments are removed, the identifier is always prefixed and `is_file`-verified, and control bytes are rejected with `ViewIdentifierException`.
+- **The facade is the only template surface.** Templates see exactly six methods (`extends`, `include`, `block`, `endblock`, `yield`, `echo`) — the internal rendering machinery is unreachable and the internal `__context` data key cannot be spoofed from `$data`.
+- **Raw output is free, escaped output is opt-in.** `yield()`, `include()`, native `echo` and captured blocks flow raw. `$this->echo($value)` escapes for HTML — attribute-safe (`ENT_QUOTES`), UTF-8, double-encoding on — but it is not context-aware: escaping for inline JavaScript or URL query strings stays a manual decision. Escape user data with `$this->echo`; reserve raw output for template-authored markup.
 
 ---
 
