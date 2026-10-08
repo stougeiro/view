@@ -27,6 +27,8 @@ A light, engine-agnostic view layer for PHP. It resolves view identifiers (dot n
 - **The Proposal, Not a Placeholder**  
   `PhpEngine` is a complete template engine for the simple case: plain-PHP templates, no compiler, no warm-up, no cache. No decorations, no comfort features. A respectable performance baseline delivered with maximum simplicity.
 
+Curious how it stacks up against Twig, Blade, Plates and friends? See the [comparison](COMPARISON.md).
+
 ---
 
 ## 📦 Installation
