@@ -17,6 +17,7 @@
     {
         use AliasTrait;
 
+
         /** @var ViewConfig
          */
         protected ViewConfig $config;
@@ -81,7 +82,6 @@
                 $state->enterPass($path, $view);
 
                 $output = $render($path, $context);
-
                 $openBlock = $state->openBlockName();
 
                 if ($openBlock !== null) {
