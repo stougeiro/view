@@ -15,9 +15,13 @@
         "view",
         "template",
         "template-engine",
+        "template-inheritance",
+        "escaping",
         "rendering",
         "view-engine",
-        "view-contract"
+        "view-manager",
+        "view-contract",
+        "php-template"
     ],
     "support": {
         "issues": "https://github.com/stougeiro/view/issues",
