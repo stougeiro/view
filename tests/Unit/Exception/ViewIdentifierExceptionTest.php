@@ -23,6 +23,13 @@ it('creates too many colons exception', function () {
         ->and($exception->getMessage())->toContain("view identifier 'admin:a:b' must contain at most one ':'.");
 });
 
+it('creates invalid characters exception', function () {
+    $exception = ViewIdentifierException::invalidCharacters("home\x00.php");
+
+    expect($exception)->toBeInstanceOf(ViewIdentifierException::class)
+        ->and($exception->getMessage())->toContain('contains invalid characters.');
+});
+
 it('creates unknown alias exception', function () {
     $exception = ViewIdentifierException::unknownAlias('nope');
 

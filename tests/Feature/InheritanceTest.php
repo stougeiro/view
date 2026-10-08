@@ -241,3 +241,55 @@ it('escapes variables inside a native include', function () {
 
     expect($this->manager->render('esc-entry', ['payload' => 'a & b']))->toBe('a &amp; b');
 });
+
+it('yields a block only the layout defines', function () {
+    $this->writeView('layouts/with-foot.php', <<<'PHP'
+<?php $this->block('foot') ?><footer>F</footer><?php $this->endblock() ?><main><?= $this->yield('content') ?></main><?= $this->yield('foot') ?>
+PHP);
+    $this->writeView('no-foot.php', <<<'PHP'
+<?php $this->extends('layouts/with-foot') ?>
+<?php $this->block('content') ?>C<?php $this->endblock() ?>
+PHP);
+
+    expect($this->manager->render('no-foot'))->toBe('<main>C</main><footer>F</footer>');
+});
+
+it('gives the child block precedence over the same block in the layout', function () {
+    $this->writeView('layouts/dup.php', <<<'PHP'
+<?php $this->block('x') ?>L<?php $this->endblock() ?>
+[<?= $this->yield('x') ?>]
+PHP);
+    $this->writeView('dup-child.php', <<<'PHP'
+<?php $this->extends('layouts/dup') ?>
+<?php $this->block('x') ?>C<?php $this->endblock() ?>
+PHP);
+
+    expect($this->manager->render('dup-child'))->toBe('[C]');
+});
+
+it('captures a block defined by a partial included from a block', function () {
+    $this->writeView('part.php', "<?php \$this->block('extra') ?>X<?php \$this->endblock() ?>P");
+    $this->writeView('compose.php', <<<'PHP'
+<?php $this->include('part') ?>
+[<?= $this->yield('extra', 'NONE') ?>]
+PHP);
+
+    expect($this->manager->render('compose'))->toBe('P[X]');
+});
+
+it('renders a six level extends chain', function () {
+    $this->writeView('d1.php', '<?= $this->yield("title", "ROOT") ?>|<?= $this->yield("body") ?>');
+
+    for ($level = 2; $level <= 5; $level++) {
+        $parent = 'd' . ($level - 1);
+        $this->writeView("d{$level}.php", "<?php \$this->extends('{$parent}') ?><?php \$this->block('body') ?>D{$level}<?php \$this->endblock() ?>");
+    }
+
+    $this->writeView('leaf.php', <<<'PHP'
+<?php $this->extends('d5') ?>
+<?php $this->block('title') ?>T<?php $this->endblock() ?>
+<?php $this->block('body') ?>LEAF<?php $this->endblock() ?>
+PHP);
+
+    expect($this->manager->render('leaf'))->toBe('T|LEAF');
+});

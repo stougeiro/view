@@ -23,6 +23,15 @@ beforeEach(function () {
     $this->writeView('perf-layout.php', '<title><?= $this->yield("title", "Untitled") ?></title><?= $this->yield("content") ?>');
     $this->writeView('perf-child.php', '<?php $this->extends("perf-layout") ?><?php $this->block("title") ?>T<?php $this->endblock() ?><?php $this->block("content") ?>Hello, <?= $name ?>!<?php $this->endblock() ?>');
 
+    $this->writeView('perf-chain-1.php', '<title><?= $this->yield("title", "Untitled") ?></title><?= $this->yield("content") ?>');
+
+    for ($level = 2; $level <= 5; $level++) {
+        $parent = 'perf-chain-' . ($level - 1);
+        $this->writeView("perf-chain-{$level}.php", "<?php \$this->extends('{$parent}') ?><?php \$this->block('content') ?>L{$level}<?php \$this->endblock() ?>");
+    }
+
+    $this->writeView('perf-chain-6.php', '<?php $this->extends("perf-chain-5") ?><?php $this->block("title") ?>T<?php $this->endblock() ?><?php $this->block("content") ?>Hello, <?= $name ?>!<?php $this->endblock() ?>');
+
     $this->config = new ViewConfig(['storage' => $this->testStorage]);
 });
 
@@ -76,4 +85,15 @@ it('renders an extends chain 500 times', function () {
     );
 
     $this->assertPerformanceAbsolute($result, 300, 'render extends chain');
+});
+
+it('renders a six level extends chain 200 times', function () {
+    $manager = new ViewManager($this->config, new PhpEngine());
+
+    $result = $this->measure(
+        fn (int $i) => $manager->render('perf-chain-6', ['name' => "User{$i}"]),
+        200
+    );
+
+    $this->assertPerformanceAbsolute($result, 300, 'render six level chain');
 });

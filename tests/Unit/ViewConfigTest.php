@@ -34,6 +34,16 @@ it('throws when the storage is empty', function () {
     new ViewConfig(['storage' => '']);
 })->throws(ViewConfigException::class, '"storage" is required.');
 
+it('throws when the storage is not a string', function (mixed $storage) {
+    new ViewConfig(['storage' => $storage]);
+})->with([[123], [true], [[]], [new stdClass()]])
+    ->throws(ViewConfigException::class, '"storage" must be a non-empty string.');
+
+it('throws when the extension is not a string', function (mixed $extension) {
+    new ViewConfig(['storage' => '/views', 'extension' => $extension]);
+})->with([[123], [false], [[]], [new stdClass()]])
+    ->throws(ViewConfigException::class, '"extension" must start with ".".');
+
 it('accepts a custom extension', function () {
     $config = new ViewConfig(['storage' => '/views', 'extension' => '.phtml']);
 

@@ -9,6 +9,13 @@ it('creates missing view storage exception', function () {
         ->and($exception->getMessage())->toContain('"storage" is required.');
 });
 
+it('creates invalid view storage exception', function () {
+    $exception = ViewConfigException::invalidStorage();
+
+    expect($exception)->toBeInstanceOf(ViewConfigException::class)
+        ->and($exception->getMessage())->toContain('"storage" must be a non-empty string.');
+});
+
 it('creates invalid extension exception', function () {
     $exception = ViewConfigException::invalidExtension();
 

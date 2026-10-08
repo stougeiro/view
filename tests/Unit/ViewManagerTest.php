@@ -34,13 +34,6 @@ it('uses a custom extension when resolving', function () {
     expect($manager->resolveAlias('home'))->toBe('/views/home.phtml');
 });
 
-it('strips parent directory traversal from the view', function () {
-    $config = new ViewConfig(['storage' => '/views']);
-    $manager = new ViewManager($config, new FakeEngine());
-
-    expect($manager->resolveAlias('pages/../secret'))->not->toContain('..');
-});
-
 it('throws on an unknown alias', function () {
     $config = new ViewConfig(['storage' => '/views']);
     $manager = new ViewManager($config, new FakeEngine());

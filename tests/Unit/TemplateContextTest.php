@@ -16,7 +16,7 @@ it('does not expose internal methods', function () {
         fn (string $path, TemplateContext $view): string => "out:{$path}",
     ))->template();
 
-    foreach (['takeParent', 'enterPass', 'openBlockName', 'parentView', 'template'] as $method) {
+    foreach (['takeParent', 'enterPass', 'openBlockName', 'template'] as $method) {
         expect(method_exists($context, $method))->toBeFalse();
     }
 });
@@ -30,7 +30,7 @@ it('rejects calls to internal methods', function () {
     $context->takeParent();
 })->throws(Error::class, 'Call to undefined method');
 
-it('delegates the five methods to the render context', function () {
+it('delegates the six methods to the render context', function () {
     $context = (new RenderContext(
         fn (string $view): string => "/views/{$view}.php",
         fn (string $path, TemplateContext $view): string => "out:{$path}",

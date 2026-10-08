@@ -12,14 +12,14 @@ beforeEach(function () {
 });
 
 it('has no parent view by default', function () {
-    expect($this->context->parentView())->toBeNull();
+    expect($this->context->takeParent())->toBeNull();
 });
 
 it('keeps the first extends declaration', function () {
     $this->context->extends('layouts.one');
     $this->context->extends('layouts.two');
 
-    expect($this->context->parentView())->toBe('layouts.one');
+    expect($this->context->takeParent())->toBe('layouts.one');
 });
 
 it('rejects extends inside an include', function () {
@@ -82,7 +82,7 @@ it('restores include state when the renderer throws', function () {
 
     $context->extends('layouts.ok');
 
-    expect($context->parentView())->toBe('layouts.ok');
+    expect($context->takeParent())->toBe('layouts.ok');
 });
 
 it('captures block content and yields it', function () {
