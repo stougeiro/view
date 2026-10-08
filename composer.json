@@ -1,6 +1,6 @@
 {
     "name": "stougeiro/view",
-    "description": "Light, engine-agnostic view layer for PHP. Ships a configurable PhpEngine, dot/alias view resolution, and shared data rendering behind the stougeiro/view-contract interfaces.",
+    "description": "A light, engine-agnostic view layer for PHP. It resolves view identifiers (dot notation and aliases) into file paths, merges shared and local data, and renders templates through a swappable engine. No global helpers, no hidden state, no cache: pure dependency injection.",
     "type": "library",
     "minimum-stability": "stable",
     "prefer-stable": true,
