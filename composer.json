@@ -20,7 +20,6 @@
         "rendering",
         "view-engine",
         "view-manager",
-        "view-contract",
         "php-template"
     ],
     "support": {
