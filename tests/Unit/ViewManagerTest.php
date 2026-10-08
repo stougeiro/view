@@ -2,6 +2,8 @@
 
 use STDW\View\Exception\ViewConfigException;
 use STDW\View\Exception\ViewIdentifierException;
+use STDW\View\Spec\RenderContext;
+use STDW\View\Spec\TemplateContext;
 use STDW\View\ViewConfig;
 use STDW\View\ViewManager;
 use Tests\Support\FakeEngine;
@@ -130,5 +132,6 @@ it('lets a later share overwrite an earlier value', function () {
     $manager->share(['a' => 2]);
     $manager->render('home');
 
-    expect($engine->calls[0]['data'])->toBe(['a' => 2]);
+    expect($engine->calls[0]['data'])->toMatchArray(['a' => 2])
+        ->and($engine->calls[0]['data'][RenderContext::DATA_KEY])->toBeInstanceOf(TemplateContext::class);
 });

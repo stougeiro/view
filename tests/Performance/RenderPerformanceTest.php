@@ -20,6 +20,8 @@ use STDW\View\ViewManager;
 beforeEach(function () {
     $this->writeView('perf-small.php', 'Hello, <?= $name ?>!');
     $this->writeView('perf-loop.php', '<ul><?php foreach ($items as $item): ?><li><?= htmlspecialchars($item, ENT_QUOTES, "UTF-8") ?></li><?php endforeach; ?></ul>');
+    $this->writeView('perf-layout.php', '<title><?= $this->yield("title", "Untitled") ?></title><?= $this->yield("content") ?>');
+    $this->writeView('perf-child.php', '<?php $this->extends("perf-layout") ?><?php $this->block("title") ?>T<?php $this->endblock() ?><?php $this->block("content") ?>Hello, <?= $name ?>!<?php $this->endblock() ?>');
 
     $this->config = new ViewConfig(['storage' => $this->testStorage]);
 });
@@ -63,4 +65,15 @@ it('renders with 50 shared keys 1000 times', function () {
     );
 
     $this->assertPerformanceAbsolute($result, 200, 'render with shared data');
+});
+
+it('renders an extends chain 500 times', function () {
+    $manager = new ViewManager($this->config, new PhpEngine());
+
+    $result = $this->measure(
+        fn (int $i) => $manager->render('perf-child', ['name' => "User{$i}"]),
+        500
+    );
+
+    $this->assertPerformanceAbsolute($result, 300, 'render extends chain');
 });
